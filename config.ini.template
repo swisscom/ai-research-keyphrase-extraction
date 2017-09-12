@@ -1,0 +1,7 @@
+[STANFORDTAGGER]
+jar_path =
+model_directory_path =
+
+[SENT2VEC]
+bin_path =
+model_path =
