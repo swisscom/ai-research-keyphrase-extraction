@@ -4,6 +4,7 @@ from model.method import MMRPhrase
 from configparser import ConfigParser
 from embeddings.emb_distrib_local import EmbeddingDistributorLocal
 import argparse
+from util.fileIO import read_file
 
 
 def extract_keyphrases(embedding_distrib, ptagger, raw_text, N, lang):
@@ -41,9 +42,19 @@ def load_local_pos_tagger(lang):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Extract keyphrases from raw text')
-    parser.add_argument('raw_text', help='raw text to process')
-    parser.add_argument('-N', help='number of keyphrases to extract', required=True)
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-raw_text', help='raw text to process')
+    group.add_argument('-text_file', help='file containing the raw text to process')
+
+    parser.add_argument('-N', help='number of keyphrases to extract', required=True, type=int)
     args = parser.parse_args()
+
+    if args.text_file:
+        raw_text = read_file(args.text_file)
+    else:
+        raw_text = args.raw_text
+
     embedding_distributor = load_local_embedding_distributor('en')
     pos_tagger = load_local_pos_tagger('en')
-    print(extract_keyphrases(embedding_distributor, pos_tagger, args.raw_text, args.N, 'en'))
+    print(extract_keyphrases(embedding_distributor, pos_tagger, raw_text, args.N, 'en'))
