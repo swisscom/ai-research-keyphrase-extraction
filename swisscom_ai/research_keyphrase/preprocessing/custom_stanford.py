@@ -3,6 +3,7 @@ perform tokenization in the specific language.
 """
 from nltk.tag import StanfordPOSTagger
 
+
 class EnglishStanfordPOSTagger(StanfordPOSTagger):
 
     @property
@@ -10,6 +11,7 @@ class EnglishStanfordPOSTagger(StanfordPOSTagger):
         return ['edu.stanford.nlp.tagger.maxent.MaxentTagger',
                 '-model', self._stanford_model, '-textFile', self._input_file_path,
                 '-outputFormatOptions', 'keepEmptySentences']
+
 
 class FrenchStanfordPOSTagger(StanfordPOSTagger):
     """

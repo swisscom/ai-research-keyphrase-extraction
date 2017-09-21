@@ -1,10 +1,11 @@
-from preprocessing.postagging import PosTaggingStanford
-from model.input_representation import InputTextObj
-from model.method import MMRPhrase
-from configparser import ConfigParser
-from embeddings.emb_distrib_local import EmbeddingDistributorLocal
 import argparse
-from util.fileIO import read_file
+from configparser import ConfigParser
+
+from swisscom_ai.research_keyphrase.embeddings.emb_distrib_local import EmbeddingDistributorLocal
+from swisscom_ai.research_keyphrase.model.input_representation import InputTextObj
+from swisscom_ai.research_keyphrase.model.method import MMRPhrase
+from swisscom_ai.research_keyphrase.preprocessing.postagging import PosTaggingStanford
+from swisscom_ai.research_keyphrase.util.fileIO import read_file
 
 
 def extract_keyphrases(embedding_distrib, ptagger, raw_text, N, lang):
@@ -39,6 +40,7 @@ def load_local_pos_tagger(lang):
         jar_path = config_parser.get('STANFORDTAGGER', 'jar_path')
         model_directory_path = config_parser.get('STANFORDTAGGER', 'model_directory_path')
         return PosTaggingStanford(jar_path, model_directory_path, lang=lang)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Extract keyphrases from raw text')
