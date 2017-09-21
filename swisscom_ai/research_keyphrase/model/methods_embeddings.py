@@ -1,5 +1,6 @@
-from model.extractor import extract_candidates, extract_sent_candidates
 import numpy as np
+
+from swisscom_ai.research_keyphrase.model.extractor import extract_candidates, extract_sent_candidates
 
 
 def extract_doc_embedding(embedding_distrib, inp_rpr, use_filtered=False):
@@ -33,10 +34,10 @@ def extract_candidates_embedding_for_doc(embedding_distrib, inp_rpr):
     2) a numpy array of shape (number of candidate phrases, dimension of embeddings :
     each row is the embedding of one candidate phrase
     """
-    candidates = np.array(extract_candidates(inp_rpr)) #list of candidates based on PosTag rules
-    embeddings = np.array(embedding_distrib.get_tokenized_sents_embeddings(candidates)) # Associated embeddings
+    candidates = np.array(extract_candidates(inp_rpr))  # List of candidates based on PosTag rules
+    embeddings = np.array(embedding_distrib.get_tokenized_sents_embeddings(candidates))  # Associated embeddings
 
-    valid_candidates_mask = ~np.all(embeddings == 0, axis=1) #Only candidates which are not unknown.
+    valid_candidates_mask = ~np.all(embeddings == 0, axis=1)  # Only candidates which are not unknown.
     return candidates[valid_candidates_mask], embeddings[valid_candidates_mask, :]
 
 

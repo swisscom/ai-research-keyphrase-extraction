@@ -1,18 +1,18 @@
-from abc import ABC, abstractmethod
-from util.fileIO import read_file, write_string
+import argparse
 import os
+import re
 import warnings
+from abc import ABC, abstractmethod
 
 # NLTK imports
 import nltk
 from nltk.tag.util import tuple2str
-import preprocessing.custom_stanford as custom_stanford
 
-import re
-#If you want to use spacy , install it and uncomment the following import
-#import spacy
+import swisscom_ai.research_keyphrase.preprocessing.custom_stanford as custom_stanford
+from swisscom_ai.research_keyphrase.util.fileIO import read_file, write_string
 
-import argparse
+# If you want to use spacy , install it and uncomment the following import
+# import spacy
 
 
 class PosTagging(ABC):
@@ -159,7 +159,7 @@ class PosTaggingSpacy(PosTagging):
     def __init__(self, nlp=None, lang='en'):
         if not nlp:
             print('Loading Spacy model')
-            self.nlp = spacy.load(lang, entity=False)
+            #  self.nlp = spacy.load(lang, entity=False)
             print('Spacy model loaded ' + lang)
         else:
             self.nlp = nlp
@@ -170,10 +170,9 @@ class PosTaggingSpacy(PosTagging):
             @see PosTagging
         """
 
-        #This step is not necessary int the stanford tokenizer.
-        #This is used to avoid such tags :  ('      ', 'SP')
+        # This step is not necessary int the stanford tokenizer.
+        # This is used to avoid such tags :  ('      ', 'SP')
         text = re.sub('[ ]+', ' ', text).strip()  # Convert multiple whitespaces into one
-
 
         doc = self.nlp(text)
         if as_tuple_list:
