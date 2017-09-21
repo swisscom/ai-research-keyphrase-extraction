@@ -1,8 +1,10 @@
-import numpy as np
-from embeddings.emb_distrib_interface import EmbeddingDistributor
-import pty
 import os
+import pty
 import subprocess
+
+import numpy as np
+
+from swisscom_ai.research_keyphrase.embeddings.emb_distrib_interface import EmbeddingDistributor
 
 
 class EmbeddingDistributorLocal(EmbeddingDistributor):
@@ -16,7 +18,8 @@ class EmbeddingDistributorLocal(EmbeddingDistributor):
 
     def __init__(self, fasttext_path, fasttext_model):
         master, slave = pty.openpty()
-        self._proc = subprocess.Popen(fasttext_path+' print-sentence-vectors '+fasttext_model, shell=True, stdin=subprocess.PIPE, stdout=slave, bufsize=1)
+        self._proc = subprocess.Popen(fasttext_path+' print-sentence-vectors '+fasttext_model, shell=True,
+                                      stdin=subprocess.PIPE, stdout=slave, bufsize=1)
         self._stdin_handle = self._proc.stdin
         self._stdout_handle = os.fdopen(master)
 
@@ -33,6 +36,6 @@ class EmbeddingDistributorLocal(EmbeddingDistributor):
         self._stdin_handle.flush()
         all_embeddings = []
         for _ in sents:
-            res = self._stdout_handle.readline()[:-2] #remove last space and jumpline
+            res = self._stdout_handle.readline()[:-2]  # remove last space and jumpline
             all_embeddings.append(eval('[' + res.replace(' ', ',') + ']'))
         return np.array(all_embeddings)

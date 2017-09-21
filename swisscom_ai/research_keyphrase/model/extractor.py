@@ -1,6 +1,7 @@
 """Contain method that return list of candidate"""
 
 import re
+
 import nltk
 
 GRAMMAR_EN = """  NP:
@@ -42,12 +43,13 @@ def extract_candidates(text_obj, no_subset=False):
 
     keyphrase_candidate = set()
 
-    np_parser = nltk.RegexpParser(get_grammar(text_obj.lang)) #Noun phrase parser
-    trees = np_parser.parse_sents(text_obj.pos_tagged) #generator with one tree per sentence
+    np_parser = nltk.RegexpParser(get_grammar(text_obj.lang))  # Noun phrase parser
+    trees = np_parser.parse_sents(text_obj.pos_tagged)  # Generator with one tree per sentence
 
     for tree in trees:
-        for subtree in tree.subtrees(filter=lambda t: t.label() == 'NP'): # For each nounphrase
-            keyphrase_candidate.add(' '.join(word for word, tag in subtree.leaves())) #concatenate the token with a space
+        for subtree in tree.subtrees(filter=lambda t: t.label() == 'NP'):  # For each nounphrase
+            # Concatenate the token with a space
+            keyphrase_candidate.add(' '.join(word for word, tag in subtree.leaves()))
 
     keyphrase_candidate = {kp for kp in keyphrase_candidate if len(kp.split()) <= 5}
 
@@ -70,7 +72,8 @@ def extract_sent_candidates(text_obj):
 
 def unique_ngram_candidates(strings):
     """
-    ['machine learning', 'machine', 'backward induction', 'induction', 'start'] -> ['backward induction', 'start', 'machine learning']
+    ['machine learning', 'machine', 'backward induction', 'induction', 'start'] ->
+    ['backward induction', 'start', 'machine learning']
     :param strings: List of string
     :return: List of string where no string is fully contained inside another string
     """
@@ -79,4 +82,3 @@ def unique_ngram_candidates(strings):
         if not any(re.search(r'\b{}\b'.format(re.escape(s)), r) for r in results):
             results.append(s)
     return results
-
