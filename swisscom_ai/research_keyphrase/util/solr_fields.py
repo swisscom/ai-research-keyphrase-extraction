@@ -20,7 +20,3 @@ def process_tagged_text(s):
         sent = [str2tuple(tagged_token) for tagged_token in sent.split(' ')]
         result.append(sent)
     return result
-
-
-
-
