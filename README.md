@@ -8,8 +8,8 @@ pip -r requirements.txt
 
 3) Download NLTK data
 ```
-import nltk
-nltk.download()
+import nltk 
+nltk.download('punkt')
 ```
 
 4) Set the paths in config.ini.template and rename to config.ini [TODO : Add more detail]
