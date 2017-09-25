@@ -83,7 +83,7 @@ def MMRPhrase(embdistrib, text_obj, beta=0.5, N=10, use_filtered=True):
 
     if len(candidates) == 0:
         warnings.warn('No keyphrase extracted for this document')
-        return []
+        return None, None, None
 
     return _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered)
 
@@ -115,7 +115,7 @@ def max_normalization(array):
     :param array: 1-d array
     :return: 1-d array max- normalized : each value is multiplied by 1/max value
     """
-    return 1/np.max(array) * array
+    return 1/np.max(array) * array.squeeze(axis=1)
 
 
 def get_aliases(kp_sim_between, candidates, threshold=0.8):
