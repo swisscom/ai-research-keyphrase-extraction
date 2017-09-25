@@ -83,7 +83,7 @@ def MMRPhrase(embdistrib, text_obj, beta=0.5, N=10, use_filtered=True):
 
     if len(candidates) == 0:
         warnings.warn('No keyphrase extracted for this document')
-        return []
+        return None, None, None
 
     return _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered)
 
