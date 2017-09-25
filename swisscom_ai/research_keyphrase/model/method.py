@@ -65,7 +65,6 @@ def _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered):
     return candidates[selected_candidates].tolist(), relevance_list, aliases_list
 
 
-
 def MMRPhrase(embdistrib, text_obj, beta=0.5, N=10, use_filtered=True):
     """
     Extract N keyphrases
