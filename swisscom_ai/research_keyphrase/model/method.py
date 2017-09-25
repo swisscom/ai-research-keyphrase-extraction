@@ -115,7 +115,7 @@ def max_normalization(array):
     :param array: 1-d array
     :return: 1-d array max- normalized : each value is multiplied by 1/max value
     """
-    return 1/np.max(array) * array
+    return 1/np.max(array) * array.squeeze(axis=1)
 
 
 def get_aliases(kp_sim_between, candidates, threshold=0.8):
