@@ -7,7 +7,7 @@ from swisscom_ai.research_keyphrase.model.methods_embeddings import extract_cand
     extract_doc_embedding, extract_sent_candidates_embedding_for_doc
 
 
-def _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered):
+def _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered, alias_threshold):
     """
     Core method using Maximal Marginal Relevance in charge to return the top-N candidates
 
@@ -60,12 +60,12 @@ def _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered):
 
     # Not using normalized version of doc_sim for computing relevance
     relevance_list = max_normalization(doc_sim[selected_candidates]).tolist()
-    aliases_list = get_aliases(sim_between[selected_candidates, :], candidates)
+    aliases_list = get_aliases(sim_between[selected_candidates, :], candidates, alias_threshold)
 
     return candidates[selected_candidates].tolist(), relevance_list, aliases_list
 
 
-def MMRPhrase(embdistrib, text_obj, beta=0.5, N=10, use_filtered=True):
+def MMRPhrase(embdistrib, text_obj, beta=0.65, N=10, use_filtered=True, alias_threshold=0.8):
     """
     Extract N keyphrases
 
@@ -85,7 +85,7 @@ def MMRPhrase(embdistrib, text_obj, beta=0.5, N=10, use_filtered=True):
         warnings.warn('No keyphrase extracted for this document')
         return None, None, None
 
-    return _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered)
+    return _MMR(embdistrib, text_obj, candidates, X, beta, N, use_filtered, alias_threshold)
 
 
 def MMRSent(embdistrib, text_obj, beta=0.5, N=10, use_filtered=True):
@@ -118,7 +118,7 @@ def max_normalization(array):
     return 1/np.max(array) * array.squeeze(axis=1)
 
 
-def get_aliases(kp_sim_between, candidates, threshold=0.8):
+def get_aliases(kp_sim_between, candidates, threshold):
     """
     Find candidates which are very similar to the keyphrases (aliases)
     :param kp_sim_between: ndarray of shape (nb_kp , nb candidates) containing the similarity
