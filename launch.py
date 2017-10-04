@@ -8,7 +8,7 @@ from swisscom_ai.research_keyphrase.preprocessing.postagging import PosTaggingSt
 from swisscom_ai.research_keyphrase.util.fileIO import read_file
 
 
-def extract_keyphrases(embedding_distrib, ptagger, raw_text, N, lang):
+def extract_keyphrases(embedding_distrib, ptagger, raw_text, N, lang, beta=0.55, alias_threshold=0.7):
     """
     Method that extract a set of keyphrases
 
@@ -17,11 +17,13 @@ def extract_keyphrases(embedding_distrib, ptagger, raw_text, N, lang):
     :param raw_text: A string containing the raw text to extract
     :param N: The number of keyphrases to extract
     :param lang: The language
+    :param beta: beta factor for MMR (tradeoff informativness/diversity)
+    :param alias_threshold: threshold to group candidates as aliases
     :return: the list of N keyphrases (or less if there is not enough candidates)
     """
     tagged = ptagger.pos_tag_raw_text(raw_text)
     text_obj = InputTextObj(tagged, lang)
-    return MMRPhrase(embedding_distrib, text_obj, N=N)
+    return MMRPhrase(embedding_distrib, text_obj, N=N, beta=beta, alias_threshold=alias_threshold)
 
 
 def load_local_embedding_distributor(lang):
