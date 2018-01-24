@@ -27,21 +27,25 @@ def extract_keyphrases(embedding_distrib, ptagger, raw_text, N, lang, beta=0.55,
 
 
 def load_local_embedding_distributor(lang):
+    assert (lang in ['en', 'de']), "Only english 'en' and german 'de' are handled"
+    config_parser = ConfigParser()
+    config_parser.read('config.ini')
+    sent2vec_bin = config_parser.get('SENT2VEC', 'bin_path')
     if lang == 'en':
-        config_parser = ConfigParser()
-        config_parser.read('config.ini')
-        sent2vec_bin = config_parser.get('SENT2VEC', 'bin_path')
         sent2vec_model = config_parser.get('SENT2VEC', 'model_path')
-        return EmbeddingDistributorLocal(sent2vec_bin, sent2vec_model)
+    elif lang == 'de':
+        sent2vec_model = config_parser.get('SENT2VEC', 'model_path_de')
+
+    return EmbeddingDistributorLocal(sent2vec_bin, sent2vec_model)
 
 
 def load_local_pos_tagger(lang):
-    if lang == 'en':
-        config_parser = ConfigParser()
-        config_parser.read('config.ini')
-        jar_path = config_parser.get('STANFORDTAGGER', 'jar_path')
-        model_directory_path = config_parser.get('STANFORDTAGGER', 'model_directory_path')
-        return PosTaggingStanford(jar_path, model_directory_path, lang=lang)
+    assert (lang in ['en', 'de', 'fr']), "Only english 'en', german 'de' and french 'fr' are handled"
+    config_parser = ConfigParser()
+    config_parser.read('config.ini')
+    jar_path = config_parser.get('STANFORDTAGGER', 'jar_path')
+    model_directory_path = config_parser.get('STANFORDTAGGER', 'model_directory_path')
+    return PosTaggingStanford(jar_path, model_directory_path, lang=lang)
 
 
 if __name__ == '__main__':
