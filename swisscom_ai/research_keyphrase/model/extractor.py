@@ -9,11 +9,12 @@ GRAMMAR_EN = """  NP:
 
 GRAMMAR_DE = """
 NBAR:
-        {<NN.*|JJ|ART>*<NN.*>}  # [Adjective(s) or Article(s)](optional) + Noun(s)
+        {<JJ|CARD>*<NN.*>+}  # [Adjective(s) or Article(s) or Posessive pronoun](optional) + Noun(s)
+        {<NN>+<PPOSAT><JJ|CARD>*<NN.*>+}
 
 NP:
-{<NBAR><APPR|APPRART><NBAR>} # Above, connected with APPR and APPART (beim vom)
-{<NBAR>}
+{<NBAR><APPR|APPRART><ART>*<NBAR>}# Above, connected with APPR and APPART (beim vom)
+{<NBAR>+}
 """
 
 GRAMMAR_FR = """  NP:
