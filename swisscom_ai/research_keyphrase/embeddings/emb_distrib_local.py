@@ -1,3 +1,8 @@
+# Copyright (c) 2017-present, Swisscom (Schweiz) AG.
+# All rights reserved.
+#
+#Authors: Kamil Bennani-Smires, Yann Savary
+
 import os
 import pty
 import subprocess

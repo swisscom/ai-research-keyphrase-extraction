@@ -1,3 +1,8 @@
+# Copyright (c) 2017-present, Swisscom (Schweiz) AG.
+# All rights reserved.
+#
+#Authors: Kamil Bennani-Smires, Yann Savary
+
 import numpy as np
 
 from swisscom_ai.research_keyphrase.model.extractor import extract_candidates, extract_sent_candidates

@@ -1,3 +1,8 @@
+# Copyright (c) 2017-present, Swisscom (Schweiz) AG.
+# All rights reserved.
+#
+#Authors: Kamil Bennani-Smires, Yann Savary
+
 import codecs
 
 codecs.register_error('replace_with_space', lambda e: (u' ', e.start + 1))

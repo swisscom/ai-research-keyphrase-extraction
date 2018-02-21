@@ -1,3 +1,8 @@
+# Copyright (c) 2017-present, Swisscom (Schweiz) AG.
+# All rights reserved.
+#
+#Authors: Kamil Bennani-Smires, Yann Savary
+
 """Module containing helper function to process results of a solr query"""
 
 

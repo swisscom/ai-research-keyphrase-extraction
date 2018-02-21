@@ -1,3 +1,8 @@
+# Copyright (c) 2017-present, Swisscom (Schweiz) AG.
+# All rights reserved.
+#
+#Authors: Kamil Bennani-Smires, Yann Savary
+
 """Implementation of StanfordPOSTagger with tokenization in the specific language, s.t. the tag and tag_sent methods
 perform tokenization in the specific language.
 """
