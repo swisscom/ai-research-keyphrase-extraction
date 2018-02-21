@@ -19,7 +19,10 @@ def extract_keyphrases(embedding_distrib, ptagger, raw_text, N, lang, beta=0.55,
     :param lang: The language
     :param beta: beta factor for MMR (tradeoff informativness/diversity)
     :param alias_threshold: threshold to group candidates as aliases
-    :return: the list of N keyphrases (or less if there is not enough candidates)
+    :return: A tuple with 3 elements :
+    1)list of the top-N candidates (or less if there are not enough candidates) (list of string)
+    2)list of associated relevance scores (list of float)
+    3)list containing for each keyphrase a list of alias (list of list of string)
     """
     tagged = ptagger.pos_tag_raw_text(raw_text)
     text_obj = InputTextObj(tagged, lang)
