@@ -42,7 +42,7 @@ ADD config.ini.template config.ini
 RUN sed -i '2 c\jar_path = /stanford-tagger/stanford-postagger.jar' config.ini && \
     sed -i '3 c\model_directory_path = /stanford-tagger/models/' config.ini && \
     sed -i '6 c\bin_path = /sent2vec/fasttext' config.ini && \
-    sed -i '7 c\model_path = /sent2vec/model/wiki_bigrams.bin' config.ini
+    sed -i '7 c\model_path = /sent2vec/pretrained_model.bin' config.ini
 
 # Add actual source code
 ADD swisscom_ai swisscom_ai/
