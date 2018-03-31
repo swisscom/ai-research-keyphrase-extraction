@@ -1,6 +1,8 @@
 This is the implementation of the following paper: https://arxiv.org/abs/1801.04470
 
-## Installation
+# Installation
+
+## Local Installation
 
 1) Download full Stanford Tagger version 3.8.0
 https://nlp.stanford.edu/software/tagger.shtml
@@ -33,6 +35,28 @@ nltk.download('punkt')
         your_path_to_model/wiki_bigrams.bin (if you choosed wiki_bigrams.bin)
     * rename config.ini.template to config.ini
 
+## Docker
+
+Probably the easiest way to get started is by using the provided Docker image.
+From the project's root directory, the image can be built like so:
+```
+$ docker build . -t keyphrase-extraction
+```
+This can take a few minutes to finish.
+Also, keep in mind that pre-trained sent2vec models will not be downloaded since each model is several GBs in size.
+
+To extract key phrases from raw text, simply run
+```
+$ docker run -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin keyphrase-extraction launch.py -raw_text 'this is the text i want to extract keyphrases from' -N 10
+```
+
+To launch the model in an interactive mode, in order to use your own code, run
+```
+$ docker run -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin -it keyphrase-extraction
+>>> import launch
+```
+In both cases, you have to specify the path to your sent2vec model using the `-v` argument.
+If, for example, you should choose not to use the *wiki_bigrams.bin* model, adjust your path accordingly (and of course, remember to remove the curly brackets).
 
 # Usage
 
