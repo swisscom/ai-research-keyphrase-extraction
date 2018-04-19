@@ -47,7 +47,7 @@ Also, keep in mind that pre-trained sent2vec models will not be downloaded since
 
 To extract key phrases from raw text, simply run
 ```
-$ docker run -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin keyphrase-extraction launch.py -raw_text 'this is the text i want to extract keyphrases from' -N 10
+$ docker run -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin keyphrase-extraction launch.py -raw_text 'the quick brown fox jumps over the lazy dog' -N 2
 ```
 
 To launch the model in an interactive mode, in order to use your own code, run
