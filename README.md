@@ -43,7 +43,7 @@ From the project's root directory, the image can be built like so:
 $ docker build . -t keyphrase-extraction
 ```
 This can take a few minutes to finish.
-Also, keep in mind that pre-trained sent2vec models will not be downloaded since each model is several GBs in size.
+Also, keep in mind that pre-trained sent2vec models will not be downloaded since each model is several GBs in size and don't forget to allocate enough memory to your docker container (models are loaded in RAM).
 
 To extract key phrases from raw text, simply run
 ```
@@ -63,7 +63,7 @@ If, for example, you should choose not to use the *wiki_bigrams.bin* model, adju
 You can launch the script to extract keyphrases from one document either by giving the raw text directly using
 -raw_text
 
-python launch.py -raw_text 'this is the text i want to extract keyphrases from' -N 10
+python launch.py -raw_text 'the quick brown fox jumps over the lazy dog' -N 2
 
 or you can specify a the path of a text file using -text_file argument :
 
