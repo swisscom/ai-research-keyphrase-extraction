@@ -4,33 +4,37 @@ This is the implementation of the following paper: https://arxiv.org/abs/1801.04
 
 ## Local Installation
 
-1) Download full Stanford Tagger version 3.8.0
+1. Download full Stanford Tagger version 3.8.0
 https://nlp.stanford.edu/software/tagger.shtml
 
-2) Install sent2vec from 
+2. Install sent2vec from 
 https://github.com/epfml/sent2vec
     * Clone/Download the directory
     * go to sent2vec directory and make
+    * pip install cython
+    * inside the src folder 
+        * ``python setup.py build_ext``
+        * ``pip install . ``
+        * (In OSX) If the setup.py throws an **error** (ignore warnings), open setup.py and add '-stdlib=libc++' in the compile_opts list.        
     * Download a pre-trained model (see readme of Sent2Vec repo) , for example wiki_bigrams.bin
      
+3. Install requirements
     
+    After cloning this repository go to the root directory and
+    ``pip -r requirements.txt``
 
-3) Install requirements
-pip -r requirements.txt
-
-4) Download NLTK data
+4. Download NLTK data
 ```
 import nltk 
 nltk.download('punkt')
 ```
 
-5) Set the paths in config.ini.template
+5. Set the paths in config.ini.template
+    
     * For [STANFORDTAGGER] :
         * set jar_path to your_stanford_path/stanford-postagger.jar
         * set model_directory_path to your_stanford_path/models
     * For [SENT2VEC]:
-        * set bin_path to the executable
-        your_sent2vec_path/sent2vec/fasttext
         * set your model_path to the pretrained model
         your_path_to_model/wiki_bigrams.bin (if you choosed wiki_bigrams.bin)
     * rename config.ini.template to config.ini

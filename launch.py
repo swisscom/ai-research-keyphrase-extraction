@@ -33,13 +33,12 @@ def load_local_embedding_distributor(lang):
     assert (lang in ['en', 'de']), "Only english 'en' and german 'de' are handled"
     config_parser = ConfigParser()
     config_parser.read('config.ini')
-    sent2vec_bin = config_parser.get('SENT2VEC', 'bin_path')
     if lang == 'en':
         sent2vec_model = config_parser.get('SENT2VEC', 'model_path')
     elif lang == 'de':
         sent2vec_model = config_parser.get('SENT2VEC', 'model_path_de')
 
-    return EmbeddingDistributorLocal(sent2vec_bin, sent2vec_model)
+    return EmbeddingDistributorLocal(sent2vec_model)
 
 
 def load_local_pos_tagger(lang):

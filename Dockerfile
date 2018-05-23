@@ -23,7 +23,13 @@ RUN apk add --update git g++ make && \
     git checkout f827d014a473aa22b2fef28d9e29211d50808d48 && \
     make && \
     apk del git make && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* && \
+    pip install cython && \
+    cd src && \
+    python setup.py build_ext && \
+    pip install .
+
+
 
 # Install requirements
 WORKDIR /app
@@ -41,8 +47,7 @@ RUN python -c "import nltk; nltk.download('punkt')"
 ADD config.ini.template config.ini
 RUN sed -i '2 c\jar_path = /stanford-tagger/stanford-postagger.jar' config.ini && \
     sed -i '3 c\model_directory_path = /stanford-tagger/models/' config.ini && \
-    sed -i '6 c\bin_path = /sent2vec/fasttext' config.ini && \
-    sed -i '7 c\model_path = /sent2vec/pretrained_model.bin' config.ini
+    sed -i '6 c\model_path = /sent2vec/pretrained_model.bin' config.ini
 
 # Add actual source code
 ADD swisscom_ai swisscom_ai/
