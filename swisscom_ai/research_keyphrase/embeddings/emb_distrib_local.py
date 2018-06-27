@@ -13,9 +13,7 @@ class EmbeddingDistributorLocal(EmbeddingDistributor):
     """
     Concrete class of @EmbeddingDistributor using a local installation of sent2vec
     https://github.com/epfml/sent2vec
-
-    It works by creating a subprocess in which text are fed through stdin , and embeddings are read from the stdout
-    This is temporary, we are waiting for the new version of the FastText Python Wrapper for a cleaner implementation.
+    
     """
 
     def __init__(self, fasttext_model):
