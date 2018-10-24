@@ -10,7 +10,9 @@ https://nlp.stanford.edu/software/tagger.shtml
 2. Install sent2vec from 
 https://github.com/epfml/sent2vec
     * Clone/Download the directory
-    * go to sent2vec directory and make
+    * go to sent2vec directory
+    * git checkout f827d014a473aa22b2fef28d9e29211d50808d48
+    * make
     * pip install cython
     * inside the src folder 
         * ``python setup.py build_ext``
