@@ -23,7 +23,7 @@ https://github.com/epfml/sent2vec
 3. Install requirements
     
     After cloning this repository go to the root directory and
-    ``pip -r requirements.txt``
+    ``pip install -r requirements.txt``
 
 4. Download NLTK data
 ```
