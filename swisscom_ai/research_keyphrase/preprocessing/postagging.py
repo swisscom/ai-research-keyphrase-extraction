@@ -12,6 +12,7 @@ from abc import ABC, abstractmethod
 # NLTK imports
 import nltk
 from nltk.tag.util import tuple2str
+from nltk.parse import CoreNLPParser
 
 import swisscom_ai.research_keyphrase.preprocessing.custom_stanford as custom_stanford
 from swisscom_ai.research_keyphrase.util.fileIO import read_file, write_string
@@ -161,13 +162,14 @@ class PosTaggingSpacy(PosTagging):
         Concrete class of PosTagging using StanfordPOSTokenizer and StanfordPOSTagger
     """
 
-    def __init__(self, nlp=None, lang='en'):
+    def __init__(self, nlp=None, separator='|' ,lang='en'):
         if not nlp:
             print('Loading Spacy model')
             #  self.nlp = spacy.load(lang, entity=False)
             print('Spacy model loaded ' + lang)
         else:
             self.nlp = nlp
+        self.separator = separator
 
     def pos_tag_raw_text(self, text, as_tuple_list=True):
         """
@@ -182,14 +184,49 @@ class PosTaggingSpacy(PosTagging):
         doc = self.nlp(text)
         if as_tuple_list:
             return [[(token.text, token.tag_) for token in sent] for sent in doc.sents]
-        return '[ENDSENT]'.join(' '.join('|'.join([token.text, token.tag_]) for token in sent) for sent in doc.sents)
+        return '[ENDSENT]'.join(' '.join(self.separator.join([token.text, token.tag_]) for token in sent) for sent in doc.sents)
+    
+
+class PosTaggingCoreNLP(PosTagging):
+    """
+    Concrete class of PosTagging using a CoreNLP server 
+    Provides a faster way to process several documents using since it doesn't require to load the model each time.
+    """
+
+    def __init__(self, host='localhost' ,port=9000, separator='|'):
+        self.parser = CoreNLPParser(url=f'http://{host}:{port}')
+        self.separator = separator
+    
+    def pos_tag_raw_text(self, text, as_tuple_list=True):
+        # Unfortunately for the moment there is no method to do sentence split + pos tagging in nltk.parse.corenlp
+        # Ony raw_tag_sents is available but assumes a list of str (so it assumes the sentence are already split)
+        # We create a small custom function highly inspired from raw_tag_sents to do both
+
+        def raw_tag_text():
+            """
+            Perform tokenizing sentence splitting and PosTagging and keep the 
+            sentence splits structure
+            """
+            properties = {'annotators':'tokenize,ssplit,pos'}
+            tagged_data = self.parser.api_call(text, properties=properties)
+            for tagged_sentence in tagged_data['sentences']:
+                yield [(token['word'], token['pos']) for token in tagged_sentence['tokens']]
+        
+        tagged_text = list(raw_tag_text())
+
+        if as_tuple_list:
+            return tagged_text
+        return '[ENDSENT]'.join(
+            [' '.join([tuple2str(tagged_token, self.separator) for tagged_token in sent]) for sent in tagged_text])
+        
+
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Write POS tagged files, the resulting file will be written'
                                                  ' at the same location with _POS append at the end of the filename')
 
-    parser.add_argument('tagger', help='which pos tagger to use [stanford, spacy]')
+    parser.add_argument('tagger', help='which pos tagger to use [stanford, spacy, corenlp]')
     parser.add_argument('listing_file_path', help='path to a text file '
                                                   'containing in each row a path to a file to POS tag')
     args = parser.parse_args()
@@ -200,6 +237,9 @@ if __name__ == '__main__':
     elif args.tagger == 'spacy':
         pt = PosTaggingSpacy()
         suffix = 'SPACY'
+    elif args.tagger == 'corenlp':
+        pt = PosTaggingCoreNLP()
+        suffix = 'CoreNLP'
 
     list_of_path = read_file(args.listing_file_path).splitlines()
     print('POS Tagging and writing ', len(list_of_path), 'files')
