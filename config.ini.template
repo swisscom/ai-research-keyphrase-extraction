@@ -2,7 +2,7 @@
 jar_path =
 model_directory_path =
 
-[CORENLPTAGGER]
+[STANFORDCORENLPTAGGER]
 host =
 port =
 

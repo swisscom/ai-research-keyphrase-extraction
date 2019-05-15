@@ -43,7 +43,7 @@ def load_local_pos_tagger(lang):
     model_directory_path = config_parser.get('STANFORDTAGGER', 'model_directory_path')
     return PosTaggingStanford(jar_path, model_directory_path, lang=lang)
 
-def load_local_corenlp_pos_tagger(host, port):
+def load_local_corenlp_pos_tagger():
     config_parser = ConfigParser()
     config_parser.read('config.ini')
     host = config_parser.get('STANFORDCORENLPTAGGER', 'host')
