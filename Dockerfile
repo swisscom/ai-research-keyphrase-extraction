@@ -10,11 +10,11 @@ RUN apk --update add openjdk8-jre
 ENV JAVA_HOME /opt/jdk
 ENV PATH ${PATH}:${JAVA_HOME}/bin
 
-# Download full Stanford Tagger
-RUN wget https://nlp.stanford.edu/software/stanford-postagger-full-2018-02-27.zip && \
-    unzip stanford-postagger-full-*.zip && \
-    rm stanford-postagger-full-*.zip && \
-    mv stanford-postagger-full-* stanford-tagger
+# Download CoreNLP full Stanford Tagger for English
+RUN wget http://nlp.stanford.edu/software/stanford-corenlp-full-2018-02-27.zip && \
+    unzip stanford-corenlp-full-*.zip && \
+    rm stanford-corenlp-full-*.zip && \
+    mv stanford-corenlp-full-* stanford-corenlp
 
 # Install sent2vec
 RUN apk add --update git g++ make && \
@@ -45,14 +45,12 @@ RUN python -c "import nltk; nltk.download('punkt')"
 
 # Set the paths in config.ini
 ADD config.ini.template config.ini
-RUN sed -i '2 c\jar_path = /stanford-tagger/stanford-postagger.jar' config.ini && \
-    sed -i '3 c\model_directory_path = /stanford-tagger/models/' config.ini && \
-    sed -i '6 c\model_path = /sent2vec/pretrained_model.bin' config.ini
+RUN sed -i '6 c\host = localhost' config.ini && \
+    sed -i '7 c\port = 9000' config.ini && \
+    sed -i '10 c\model_path = /sent2vec/pretrained_model.bin' config.ini
 
 # Add actual source code
 ADD swisscom_ai swisscom_ai/
 ADD launch.py .
 
-# Run python, optionally with launch.py as CMD
-ENTRYPOINT ["python"]
-CMD []
+ENTRYPOINT ["/bin/sh"]
