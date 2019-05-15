@@ -4,8 +4,8 @@ This is the implementation of the following paper: https://arxiv.org/abs/1801.04
 
 ## Local Installation
 
-1. Download full Stanford Tagger version 3.8.0
-https://nlp.stanford.edu/software/tagger.shtml
+1. Download full Stanford CoreNLP Tagger version 3.8.0
+http://nlp.stanford.edu/software/stanford-corenlp-full-2018-02-27.zip
 
 2. Install sent2vec from 
 https://github.com/epfml/sent2vec
@@ -31,11 +31,17 @@ import nltk
 nltk.download('punkt')
 ```
 
-5. Set the paths in config.ini.template
-    
-    * For [STANFORDTAGGER] :
-        * set jar_path to your_stanford_path/stanford-postagger.jar
-        * set model_directory_path to your_stanford_path/models
+5. Launch Stanford Core NLP tagger
+    * Open a new terminal
+    * Go to the stanford-core-nlp-full directory
+    * Run the server `java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -preload tokenize,ssplit,pos -status_port 9000 -port 9000 -timeout 15000 & `
+
+
+6. Set the paths in config.ini.template
+    * You can leave [STANFORDTAGGER] parameters empty
+    * For [STANFORDCORENLPTAGGER] :
+        * set host to localhost
+        * set port to 9000
     * For [SENT2VEC]:
         * set your model_path to the pretrained model
         your_path_to_model/wiki_bigrams.bin (if you choosed wiki_bigrams.bin)
@@ -51,39 +57,29 @@ $ docker build . -t keyphrase-extraction
 This can take a few minutes to finish.
 Also, keep in mind that pre-trained sent2vec models will not be downloaded since each model is several GBs in size and don't forget to allocate enough memory to your docker container (models are loaded in RAM).
 
-To extract key phrases from raw text, simply run
-```
-$ docker run -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin keyphrase-extraction launch.py -raw_text 'the quick brown fox jumps over the lazy dog' -N 2
-```
-
 To launch the model in an interactive mode, in order to use your own code, run
 ```
 $ docker run -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin -it keyphrase-extraction
+# Run the corenlp server
+/app # cd /stanford-corenlp
+/stanford-corenlp # nohup java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -preload tokenize,ssplit,pos -status_port 9000 -port 9000 -timeout 15000 &
+# Press enter to get stdin back
+/stanford-corenlp # cd /app
+/app # python
 >>> import launch
 ```
-In both cases, you have to specify the path to your sent2vec model using the `-v` argument.
+You have to specify the path to your sent2vec model using the `-v` argument.
 If, for example, you should choose not to use the *wiki_bigrams.bin* model, adjust your path accordingly (and of course, remember to remove the curly brackets).
 
 # Usage
 
-You can launch the script to extract keyphrases from one document either by giving the raw text directly using
--raw_text
-
-python launch.py -raw_text 'the quick brown fox jumps over the lazy dog' -N 2
-
-or you can specify a the path of a text file using -text_file argument :
-
-python launch.py -text_file 'path/to/your/textfile' -N 10
-
-If you have several documents in which you want to extract keyphrases the previous approach will be very slow because
-it will load the embedding model and the part of speech tagger each time. If you have several documents it is better to
-load the embedding model and the part of speech tagger once :
+Once the CoreNLP server is running
 
 ```
 import launch
 
-embedding_distributor = launch.load_local_embedding_distributor('en')
-pos_tagger = launch.load_local_pos_tagger('en')
+embedding_distributor = launch.load_local_embedding_distributor()
+pos_tagger = launch.load_local_corenlp_pos_tagger()
 
 kp1 = launch.extract_keyphrases(embedding_distributor, pos_tagger, raw_text, 10, 'en')  #extract 10 keyphrases
 kp2 = launch.extract_keyphrases(embedding_distributor, pos_tagger, raw_text2, 10, 'en')
@@ -118,4 +114,6 @@ You can change the beta hyperparameter value when calling extract_keyphrases:
 kp1 = launch.extract_keyphrases(embedding_distributor, pos_tagger, raw_text, 10, 'en', beta=0.8)  #extract 10 keyphrases with beta=0.8
 
 ```
+
+If you want to replicate the results of the paper you have to set beta to 1 or 0.5 and turn off the alias feature by specifiying alias_threshold=1 to extract_keyphrases method.
 
