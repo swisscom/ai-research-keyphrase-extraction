@@ -36,13 +36,6 @@ def load_local_embedding_distributor():
     return EmbeddingDistributorLocal(sent2vec_model_path)
 
 
-def load_local_pos_tagger(lang):
-    config_parser = ConfigParser()
-    config_parser.read('config.ini')
-    jar_path = config_parser.get('STANFORDTAGGER', 'jar_path')
-    model_directory_path = config_parser.get('STANFORDTAGGER', 'model_directory_path')
-    return PosTaggingStanford(jar_path, model_directory_path, lang=lang)
-
 def load_local_corenlp_pos_tagger():
     config_parser = ConfigParser()
     config_parser.read('config.ini')
