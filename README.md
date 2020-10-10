@@ -71,6 +71,16 @@ $ docker run -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin -it ke
 You have to specify the path to your sent2vec model using the `-v` argument.
 If, for example, you should choose not to use the *wiki_bigrams.bin* model, adjust your path accordingly (and of course, remember to remove the curly brackets).
 
+
+To turn on the CoreNLP server and run your code through your own python script
+```
+$ docker run -p9000:9000 -v {path to wiki_bigrams.bin}:/sent2vec/pretrained_model.bin -it keyphrase-extraction
+# Run the corenlp server
+/app # cd /stanford-corenlp
+/stanford-corenlp # java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -preload tokenize,ssplit,pos -status_port 9000 -port 9000 -timeout 15000 &
+```
+You'll get the IP (preferably 0.0.0.0) and the port (9000) on which the server is running. Add those details in the cong.ini file (as indicated in step 6 above). 
+
 # Usage
 
 Once the CoreNLP server is running
