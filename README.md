@@ -122,4 +122,6 @@ If you want to replicate the results of the paper you have to set beta to 1 or 0
 
 # Evaluation
 
-![Evaluation](swisscom_ai/research_keyphrase/eval-results.png)
+
+
+![Evaluation](eval-results.png)
