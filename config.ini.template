@@ -8,3 +8,6 @@ port =
 
 [SENT2VEC]
 model_path =
+
+[DOC2VEC]
+model_path =
