@@ -1,5 +1,3 @@
-This is the implementation of the following paper: https://arxiv.org/abs/1801.04470
-
 # Installation
 
 ## Local Installation
@@ -121,3 +119,7 @@ kp1 = launch.extract_keyphrases(embedding_distributor, pos_tagger, raw_text, 10,
 ```
 
 If you want to replicate the results of the paper you have to set beta to 1 or 0.5 and turn off the alias feature by specifiying alias_threshold=1 to extract_keyphrases method.
+
+# Evaluation
+
+![Evaluation](swisscom_ai/research_keyphrase/eval-results.png)
