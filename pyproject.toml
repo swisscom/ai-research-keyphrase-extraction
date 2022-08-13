@@ -5,6 +5,8 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 license = "Apache-2.0"
 
+packages = [{ include = "swisscom_ai" }]
+
 [tool.poetry.dependencies]
 python = "^3.8"
 langdetect = "1.0.7"
