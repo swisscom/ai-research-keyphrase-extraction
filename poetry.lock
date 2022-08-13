@@ -252,23 +252,6 @@ python-versions = ">=3.7"
 numpy = ">=1.16.5"
 
 [[package]]
-name = "sent2vec"
-version = "0.0.0"
-description = ""
-category = "main"
-optional = false
-python-versions = "*"
-develop = true
-
-[package.dependencies]
-Cython = ">=0.29.13"
-numpy = ">=1.17.1"
-
-[package.source]
-type = "directory"
-url = "sent2vec"
-
-[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -325,7 +308,7 @@ brotli = ["brotlipy (>=0.6.0)", "brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "738d627d3fef8a90e2e7538f6cd4b120ecfb39a96cdeff8984aeaab86da81e15"
+content-hash = "1e7ae974de664701b5f976ef4d7ac0eef1364d3f5eff75bfce922ab03c5f43c0"
 
 [metadata.files]
 atomicwrites = [
@@ -542,7 +525,6 @@ scipy = [
     {file = "scipy-1.6.1-cp39-cp39-win_amd64.whl", hash = "sha256:a5193a098ae9f29af283dcf0041f762601faf2e595c0db1da929875b7570353f"},
     {file = "scipy-1.6.1.tar.gz", hash = "sha256:c4fceb864890b6168e79b0e714c585dbe2fd4222768ee90bc1aa0f8218691b11"},
 ]
-sent2vec = []
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
