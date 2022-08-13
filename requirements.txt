@@ -1,8 +1,0 @@
-langdetect==1.0.7
-nltk
-numpy
-scikit-learn
-scipy
-six
-requests
-sent2vec==0.3.0
