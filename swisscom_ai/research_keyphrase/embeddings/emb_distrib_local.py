@@ -3,9 +3,8 @@
 #
 #Authors: Kamil Bennani-Smires, Yann Savary
 
-import numpy as np
-
 from swisscom_ai.research_keyphrase.embeddings.emb_distrib_interface import EmbeddingDistributor
+# from sent2vec.src import Sent2vecModel
 import sent2vec
 
 

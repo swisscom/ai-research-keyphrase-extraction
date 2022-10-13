@@ -7,37 +7,28 @@ This is the implementation of the following paper: https://arxiv.org/abs/1801.04
 1. Download full Stanford CoreNLP Tagger version 3.8.0
 http://nlp.stanford.edu/software/stanford-corenlp-full-2018-02-27.zip
 
-2. Install sent2vec from 
-https://github.com/epfml/sent2vec
-    * Clone/Download the directory
-    * go to sent2vec directory
-    * git checkout f827d014a473aa22b2fef28d9e29211d50808d48
-    * make
-    * pip install cython
-    * inside the src folder 
-        * ``python setup.py build_ext``
-        * ``pip install . ``
-        * (In OSX) If the setup.py throws an **error** (ignore warnings), open setup.py and add '-stdlib=libc++' in the compile_opts list.        
-    * Download a pre-trained model (see readme of Sent2Vec repo) , for example wiki_bigrams.bin
-     
-3. Install requirements
+2. Download a pre-trained model (from [here](https://github.com/epfml/sent2vec)) , for example wiki_bigrams.bin 
+
+3. Install [Poetry](https://python-poetry.org/docs/#installation)
+
+4. Install requirements
     
     After cloning this repository go to the root directory and
-    ``pip install -r requirements.txt``
+    `poetry install`
 
-4. Download NLTK data
+5. Download NLTK data
 ```
 import nltk 
 nltk.download('punkt')
 ```
 
-5. Launch Stanford Core NLP tagger
+6. Launch Stanford Core NLP tagger
     * Open a new terminal
     * Go to the stanford-core-nlp-full directory
     * Run the server `java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -preload tokenize,ssplit,pos -status_port 9000 -port 9000 -timeout 15000 & `
 
 
-6. Set the paths in config.ini.template
+7. Set the paths in config.ini.template
     * You can leave [STANFORDTAGGER] parameters empty
     * For [STANFORDCORENLPTAGGER] :
         * set host to localhost
